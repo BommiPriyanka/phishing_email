@@ -1,0 +1,25 @@
+# Virtual Environments
+venv/
+venv.nosync/
+backend/venv/
+backend/venv.nosync/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node.js
+node_modules/
+node_modules.nosync/
+frontend/node_modules/
+frontend/node_modules.nosync/
+frontend/dist/
+
+# Large Model Files
+models/
+
+# System Files
+.DS_Store
+Thumbs.db
