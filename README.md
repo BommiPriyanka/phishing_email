@@ -1,83 +1,74 @@
 # Phishing Email Detection
 
-This repository implements an enterprise-style phishing email classification system using LSTM, GRU, and Transformer-based deep learning models.
+This repository implements a phishing email classification system using LSTM, GRU, and Transformer-based deep learning models. It features a modern React + Vite frontend dashboard and a FastAPI backend service.
+
+---
 
 ## Repository Structure
 
 - `backend/`
   - `main.py` - FastAPI inference service for LSTM, GRU, and Transformer models
-  - `inference.py` - shared model loading and prediction logic
+  - `inference.py` - Shared model loading and prediction logic
 - `frontend/` - **React + Vite** web dashboard (primary UI)
-  - `src/App.jsx` - main application component
+  - `src/App.jsx` - Main application component
   - `src/api.js` - API client for the FastAPI backend
-  - `src/components/` - reusable UI components
+  - `src/components/` - Reusable UI components
 - `streamlit-frontend/`
-  - `app.py` - legacy Streamlit UI for model comparison
-- `models/`
-  - `lstm_model.h5`
-  - `gru_model.h5`
-  - `tokenizer.pkl`
-  - `bert_model/` - fine-tuned transformer model folder
+  - `app.py` - Legacy Streamlit UI for model comparison
 - `requirements.txt` - Python dependency manifest
 
-## Setup
+---
 
-Recommended Python version: `3.11.x` on macOS Apple Silicon.
+## Instructions for Running Locally (For You & Your Friends)
 
+Since the machine learning model files are very large (approx. 418 MB total), they are excluded from this GitHub repository. 
+
+### Step 1: Clone the Repository
 ```bash
-cd /Users/priya/Desktop/phishing-detector
-python3.11 -m venv venv
-source venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+git clone https://github.com/BommiPriyanka/phishing_email.git
+cd phishing_email
 ```
 
-## Run the React frontend
+### Step 2: Download and Place the `models/` Directory
+1. Download the `models/` folder shared by the repository owner (e.g., from Google Drive or OneDrive).
+2. Extract/copy the `models/` directory directly into the root folder of this project so it looks like:
+   ```text
+   phishing_email/
+   ├── backend/
+   ├── frontend/
+   ├── models/
+   │   ├── bert_model/
+   │   ├── gru_model.h5
+   │   ├── lstm_model.h5
+   │   └── tokenizer.pkl
+   └── requirements.txt
+   ```
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+### Step 3: Run the Backend (FastAPI)
+1. Set up a virtual environment and install Python dependencies:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+2. Start the FastAPI server:
+   ```bash
+   # On macOS (especially Apple Silicon):
+   export DYLD_LIBRARY_PATH="/opt/homebrew/opt/expat/lib"
+   export CUDA_VISIBLE_DEVICES="-1"
+   uvicorn backend.main:app --host 127.0.0.1 --port 8000
+   
+   # On Windows/Linux:
+   uvicorn backend.main:app --host 127.0.0.1 --port 8000
+   ```
 
-Opens at **http://localhost:3000**. The React frontend calls the FastAPI backend for inference.
+### Step 4: Run the Frontend (React + Vite)
+1. Open a new terminal window/tab.
+2. Install packages and start the Vite dev server:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+3. Open your web browser and go to **`http://localhost:3000`** to use the application!
 
-## Run the legacy Streamlit frontend
-
-```bash
-streamlit run streamlit-frontend/app.py
-```
-
-## Run the backend API
-
-```bash
-uvicorn backend.main:app --reload
-```
-
-Then call the API using:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/predict/lstm" \
-  -H "Content-Type: application/json" \
-  -d '{"subject":"Verify account","body":"Your login is expired. Click here to update.","sender":"support@example.com","timestamp":"2026-05-27 14:00:00"}'
-```
-
-## Notes
-
-- The Streamlit app loads the three downloaded models directly for local inference.
-- The Transformer uses the local `models/bert_model` folder and the tokenizer in `models/tokenizer.pkl`.
-- If you are on macOS and want accelerated TensorFlow, use `tensorflow-macos` and `tensorflow-metal`.
-
-## Troubleshooting
-
-- If `tensorflow-macos` is unavailable, confirm that your virtual environment uses Python 3.11:
-
-```bash
-python -V
-```
-
-- If the transformer package fails to load, install it manually:
-
-```bash
-python -m pip install transformers torch
-```
