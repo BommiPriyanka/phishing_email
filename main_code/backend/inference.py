@@ -15,7 +15,7 @@ except ImportError:  # pragma: no cover
     AutoModelForSequenceClassification = None
     torch = None
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 MODEL_DIR = BASE_DIR / "models"
 TF_MAXLEN = 200
 TRANSFORMER_MAXLEN = 256
