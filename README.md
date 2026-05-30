@@ -6,15 +6,16 @@ This repository implements a phishing email classification system using LSTM, GR
 
 ## Repository Structure
 
-- `backend/`
-  - `main.py` - FastAPI inference service for LSTM, GRU, and Transformer models
-  - `inference.py` - Shared model loading and prediction logic
-- `frontend/` - **React + Vite** web dashboard (primary UI)
-  - `src/App.jsx` - Main application component
-  - `src/api.js` - API client for the FastAPI backend
-  - `src/components/` - Reusable UI components
-- `streamlit-frontend/`
-  - `app.py` - Legacy Streamlit UI for model comparison
+- `main_code/`
+  - `backend/`
+    - `main.py` - FastAPI inference service for LSTM, GRU, and Transformer models
+    - `inference.py` - Shared model loading and prediction logic
+  - `frontend/` - **React + Vite** web dashboard (primary UI)
+    - `src/App.jsx` - Main application component
+    - `src/api.js` - API client for the FastAPI backend
+    - `src/components/` - Reusable UI components
+  - `streamlit-frontend/`
+    - `app.py` - Legacy Streamlit UI for model comparison
 - `requirements.txt` - Python dependency manifest
 
 ---
@@ -34,8 +35,11 @@ cd phishing_email
 2. Extract/copy the `models/` directory directly into the root folder of this project so it looks like:
    ```text
    phishing_email/
-   ├── backend/
-   ├── frontend/
+   ├── Docs/
+   ├── main_code/
+   │   ├── backend/
+   │   ├── frontend/
+   │   └── streamlit-frontend/
    ├── models/
    │   ├── bert_model/
    │   ├── gru_model.h5
@@ -56,17 +60,17 @@ cd phishing_email
    # On macOS (especially Apple Silicon):
    export DYLD_LIBRARY_PATH="/opt/homebrew/opt/expat/lib"
    export CUDA_VISIBLE_DEVICES="-1"
-   uvicorn backend.main:app --host 127.0.0.1 --port 8000
+   uvicorn main_code.backend.main:app --host 127.0.0.1 --port 8000
    
    # On Windows/Linux:
-   uvicorn backend.main:app --host 127.0.0.1 --port 8000
+   uvicorn main_code.backend.main:app --host 127.0.0.1 --port 8000
    ```
 
 ### Step 4: Run the Frontend (React + Vite)
 1. Open a new terminal window/tab.
 2. Install packages and start the Vite dev server:
    ```bash
-   cd frontend
+   cd main_code/frontend
    npm install
    npm run dev
    ```
